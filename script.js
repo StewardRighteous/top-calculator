@@ -55,6 +55,7 @@ function operate(num1, operator, num2 ){
 }
 
 function calculator(){
+    //  Initializing starting values
     let operands = {
         first : "",
         second : "",
@@ -112,6 +113,7 @@ function calculator(){
 
     inputValue.value = "0"
 
+// Function that would react to each button clicked  
 function calculate(selectedButton){
     switch(selectedButton){
         case "=":
@@ -183,6 +185,8 @@ function calculate(selectedButton){
             }
     }
 }    
+
+    // Keyboard support
     window.addEventListener("keydown", (e)=>{
         console.log(e);
         const acceptedValues = "0123456789+-*/."
@@ -201,6 +205,7 @@ function calculate(selectedButton){
         }
     })
 
+    // Button support
     buttons.forEach((button)=>{
         button.addEventListener("click", (e)=>{
             let selectedButton = e.target.textContent;

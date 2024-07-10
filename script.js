@@ -4,22 +4,25 @@ const inputValue = document.querySelector("#input-area");
 function add(a,b){
     let value = a+b;
     if(value > 999999999 || value < -999999999) return value.toPrecision(5);
-    if(Number.isInteger(value)) return value;
-    return value.toFixed(7);     
+    let length = (''+ value).length;
+    if(length > 7 ) return value.toFixed(7);   
+    return value;
 }
 
 function sub(a,b){
-   let value = a-b;
+    let value = a-b;
     if(value > 999999999 || value < -999999999) return value.toPrecision(5);
-    if(Number.isInteger(value)) return value;
-    return value.toFixed(7);     
+    let length = (''+ value).length;
+    if(length > 7 ) return value.toFixed(7);   
+    return value;    
 }
 
 function mul(a,b){
-   let value = a*b;
+    let value = a*b;
     if(value > 999999999 || value < -999999999) return value.toPrecision(5);
-    if(Number.isInteger(value)) return value;
-    return value.toFixed(7);     
+    let length = (''+ value).length;
+    if(length > 7 ) return value.toFixed(7);   
+    return value;      
 }
 
 function div(a,b){
@@ -28,8 +31,9 @@ function div(a,b){
     }
     let value = a/b;
     if(value > 999999999 || value < -999999999) return value.toPrecision(5);
-    if(Number.isInteger(value)) return value;
-    return value.toFixed(7);     
+    let length = (''+ value).length;
+    if(length > 7 ) return value.toFixed(7);   
+    return value;       
 }
 
 function operate(num1, operator, num2 ){

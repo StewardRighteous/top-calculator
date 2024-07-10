@@ -96,7 +96,7 @@ function calculator(){
             this.first = value;
         },
         isEmpty(){
-            if(this.first = ""|| (this.second = "")){
+            if(this.first == ""|| (this.second == "")){
                 return true
             }
             return false;
@@ -136,8 +136,7 @@ function calculator(){
 
                 case "=":
                     if(operators.isEmpty()){
-                        operators.error();
-                        inputValue.value = operators.getOperator();
+                        inputValue.value = operands.second;
                     }else{
                         inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
                         operators.setDefault();
@@ -156,10 +155,14 @@ function calculator(){
                             operands.updateSecond(""); 
                             inputValue.value = operands.second;
                         }else{
+                            if(operands.isEmpty()){
+                                operators.updateOperator(selectedButton);
+                            }else{
                             inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
                             operators.updateOperator(selectedButton);
                             operands.updateFirst(inputValue.value);
-                            operands.updateSecond(""); 
+                            operands.updateSecond("");
+                            } 
                         }
                     break;
 

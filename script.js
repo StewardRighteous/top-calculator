@@ -136,7 +136,11 @@ function calculator(){
 
                 case "=":
                     if(operators.isEmpty()){
-                        inputValue.value = operands.second;
+                        if(operands.second == ""){
+                            inputValue.value = "0";
+                        }else{
+                            inputValue.value = operands.second;
+                        }
                     }else{
                         inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
                         operators.setDefault();
@@ -175,7 +179,7 @@ function calculator(){
                 default:
                     if(inputValue.value.length != 9){
                         operands.updateSecond(`${operands.second}${selectedButton}`);
-                    inputValue.value = operands.second;
+                        inputValue.value = operands.second;
                     }
             }
         })

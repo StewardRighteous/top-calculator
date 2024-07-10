@@ -2,22 +2,22 @@ const buttons = document.querySelectorAll("button");
 const inputValue = document.querySelector("#input-area");
 
 function add(a,b){
-    return a+b;
+    return (a+b).toPrecision(5);
 }
 
 function sub(a,b){
-    return a-b;
+    return (a-b).toPrecision(5);
 }
 
 function mul(a,b){
-    return a*b;
+    return (a*b).toPrecision(5);
 }
 
 function div(a,b){
     if(b == 0){
         return "ERROR";
     }
-    return a/b;
+    return (a/b).toPrecision(5);
 }
 
 function operate(num1, operator, num2 ){
@@ -173,8 +173,10 @@ function calculator(){
                     break;
 
                 default:
-                    operands.updateSecond(`${operands.second}${selectedButton}`);
+                    if(inputValue.value.length != 9){
+                        operands.updateSecond(`${operands.second}${selectedButton}`);
                     inputValue.value = operands.second;
+                    }
             }
         })
     })

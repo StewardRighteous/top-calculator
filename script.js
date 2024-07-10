@@ -2,22 +2,34 @@ const buttons = document.querySelectorAll("button");
 const inputValue = document.querySelector("#input-area");
 
 function add(a,b){
-    return (a+b).toPrecision(5);
+    if(a+b > 999999999 || a+b < -999999999 ){
+        return (a+b).toPrecision(5);
+    }
+    return (a+b);
 }
 
 function sub(a,b){
-    return (a-b).toPrecision(5);
+    if(a-b > 999999999 || a-b < -999999999 ){
+        return (a-b).toPrecision(5);
+    }
+    return (a-b);
 }
 
 function mul(a,b){
-    return (a*b).toPrecision(5);
+    if(a*b > 999999999 || a*b < -999999999 ){
+        return (a*b).toPrecision(5);
+    }
+    return (a*b);
 }
 
 function div(a,b){
     if(b == 0){
         return "ERROR";
     }
-    return (a/b).toPrecision(5);
+    if(a/b > 999999999 || a/b < -999999999 ){
+        return (a/b).toPrecision(5);
+    }
+    return (a/b);
 }
 
 function operate(num1, operator, num2 ){
@@ -170,7 +182,7 @@ function calculator(){
                         }
                     break;
 
-                case "C":
+                case "Clear":
                     operands.setDefault();
                     operators.setDefault();
                     inputValue.value = "0"

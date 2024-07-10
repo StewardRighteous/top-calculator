@@ -108,85 +108,103 @@ function calculator(){
         updateOperator(operator){
             this.operator = operator;
         },
-    }
+    };
 
-  
     inputValue.value = "0"
+
+function calculate(selectedButton){
+    switch(selectedButton){
+        case "=":
+            if(operators.isEmpty()){
+                if(operands.second == ""){
+                    inputValue.value = "0";
+                }else{
+                    inputValue.value = operands.second;
+                }
+            }else{
+                inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
+                operators.setDefault();
+                operands.first = inputValue.value;
+                operands.second = "";
+            }
+            break;
+
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+            if(operators.isEmpty()){
+                operators.updateOperator(selectedButton);
+                operands.updateFirst(inputValue.value);
+                operands.updateSecond(""); 
+                inputValue.value = operands.second;
+            }else{
+                if(operands.isEmpty()){
+                    operators.updateOperator(selectedButton);
+                }else{
+                    inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
+                    operators.updateOperator(selectedButton);
+                    operands.updateFirst(inputValue.value);
+                    operands.updateSecond("");
+                } 
+            }
+            break;
+
+        case ".":
+            let calculatedValue = inputValue.value;
+            if(operands.second.includes(".") && inputValue.value.length != 9 ){
+                break;
+            }else if( (operands.first == calculatedValue) &&(operands.isEmpty())){
+                operands.second = operands.first;
+                operands.first = "";
+                operands.updateSecond(`${operands.second}${selectedButton}`);
+                inputValue.value = operands.second;
+            }else{
+                operands.updateSecond(`${operands.second}${selectedButton}`);
+                inputValue.value = operands.second;
+            }
+            break;
+
+        case "Clear":
+            operands.setDefault();
+            operators.setDefault();
+            inputValue.value = "0"
+            break;
+
+        case "Backspace":
+            operands.second =  operands.second.slice(0,-1);
+            inputValue.value = operands.second;
+            break;    
+
+        default:
+            if(inputValue.value.length != 9){
+                operands.updateSecond(`${operands.second}${selectedButton}`);
+                inputValue.value = operands.second;
+            }
+    }
+}    
+    window.addEventListener("keydown", (e)=>{
+        console.log(e);
+        const acceptedValues = "0123456789+-*/."
+        let pressedButton = e.key;
+        let isitRightButton = acceptedValues.includes(pressedButton);
+        if(pressedButton == "Backspace"){
+            calculate("Backspace");
+        }else if(pressedButton == "c" || pressedButton == "C"){
+            calculate("Clear")
+        }else if(isitRightButton){
+            calculate(pressedButton);
+        }else if (pressedButton == "Enter"){
+            calculate("=");
+        }else{
+            
+        }
+    })
 
     buttons.forEach((button)=>{
         button.addEventListener("click", (e)=>{
             let selectedButton = e.target.textContent;
-
-            switch(selectedButton){
-
-                case "=":
-                    if(operators.isEmpty()){
-                        if(operands.second == ""){
-                            inputValue.value = "0";
-                        }else{
-                            inputValue.value = operands.second;
-                        }
-                    }else{
-                        inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
-                        operators.setDefault();
-                        operands.first = inputValue.value;
-                        operands.second = "";
-                    }
-                    break;
-
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                        if(operators.isEmpty()){
-                            operators.updateOperator(selectedButton);
-                            operands.updateFirst(inputValue.value);
-                            operands.updateSecond(""); 
-                            inputValue.value = operands.second;
-                        }else{
-                            if(operands.isEmpty()){
-                                operators.updateOperator(selectedButton);
-                            }else{
-                            inputValue.value = operate(operands.getFirst(), operators.operator, operands.getSecond());
-                            operators.updateOperator(selectedButton);
-                            operands.updateFirst(inputValue.value);
-                            operands.updateSecond("");
-                            } 
-                        }
-                    break;
-
-                case ".":
-                    let calculatedValue = inputValue.value;
-                    if(operands.second.includes(".") && inputValue.value.length != 9 ){
-                        break;
-                    }else if( (operands.first == calculatedValue) &&(operands.isEmpty())){
-                        operands.second = operands.first;
-                        operands.first = "";
-                        operands.updateSecond(`${operands.second}${selectedButton}`);
-                        inputValue.value = operands.second;
-                    }else{
-                        operands.updateSecond(`${operands.second}${selectedButton}`);
-                        inputValue.value = operands.second;
-                    }
-                    break;
-
-                case "Clear":
-                    operands.setDefault();
-                    operators.setDefault();
-                    inputValue.value = "0"
-                    break;
-
-                case "Backspace":
-                    operands.second =  operands.second.slice(0,-1);
-                    inputValue.value = operands.second;
-                    break;    
-
-                default:
-                    if(inputValue.value.length != 9){
-                        operands.updateSecond(`${operands.second}${selectedButton}`);
-                        inputValue.value = operands.second;
-                    }
-            }
+            calculate(selectedButton);
         })
     })
 }

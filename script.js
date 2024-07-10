@@ -2,10 +2,14 @@ const buttons = document.querySelectorAll("button");
 const inputValue = document.querySelector("#input-area");
 
 function add(a,b){
-    if(a+b > 999999999 || a+b < -999999999 ){
-        return (a+b).toPrecision(5);
+    if(Number.isInteger(a) && Number.isInteger(b)){
+        if(a+b > 999999999 || a+b < -999999999 ){
+            return (a+b).toPrecision(5);
+        }else{
+            return (a+b);
+        }
     }
-    return (a+b);
+    return (a+b).toFixed(3);
 }
 
 function sub(a,b){
@@ -54,48 +58,21 @@ function operate(num1, operator, num2 ){
     return value;
 }
 
-/*CALCULATOR ALGORITHM
-    i/o :
-            0 + = --> ERROR
-            1+1 = --> End Value
-            1+1 + --> 2 (end Value) and addnew Num
-            1+1 - 2 = 0 --> end value
-    Procedure:
-        operands = {first, second}
-        operators = {operation}
-        
-        CLICK = 
-            IF operands.length != 2 ERROR
-            IF operands.length == 2 THEN operate()
-        
-        CLICK +,-,*,/
-            IF operators.length == 0 THEN 
-                push(operation)
-                first = value
-                second = null
-            IF operators.length != 0 THEN 
-                value = operate()
-                first = value
-                second = null  
-                push(operation)
-        CLICK C
-            operands = [first, second]
-            operators = []
-
-        Click anynum
-            UPDATE second = {second}{enteredValue}
-            OUTPUT--> second
- */
-
 function calculator(){
     let operands = {
         first : "",
         second : "",
         getFirst(){
-            return parseInt(this.first);
+            if(Number.isInteger(this.first)){
+                return parseInt(this.first);
+            }
+            return parseFloat(this.first);
         },
         getSecond(){
-            return parseInt(this.second);
+            if(Number.isInteger(this.second)){
+                return parseInt(this.second);
+            }
+            return parseFloat(this.second);
         },
         setDefault(){
             this.first = "";
@@ -182,11 +159,31 @@ function calculator(){
                         }
                     break;
 
+                case ".":
+                    let calculatedValue = inputValue.value;
+                    if(operands.second.includes(".") && inputValue.value.length != 9 ){
+                        break;
+                    }else if( (operands.first == calculatedValue) &&(operands.isEmpty())){
+                        operands.second = operands.first;
+                        operands.first = "";
+                        operands.updateSecond(`${operands.second}${selectedButton}`);
+                        inputValue.value = operands.second;
+                    }else{
+                        operands.updateSecond(`${operands.second}${selectedButton}`);
+                        inputValue.value = operands.second;
+                    }
+                    break;
+
                 case "Clear":
                     operands.setDefault();
                     operators.setDefault();
                     inputValue.value = "0"
                     break;
+
+                case "Backspace":
+                    operands.second =  operands.second.slice(0,-1);
+                    inputValue.value = operands.second;
+                    break;    
 
                 default:
                     if(inputValue.value.length != 9){

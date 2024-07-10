@@ -2,38 +2,34 @@ const buttons = document.querySelectorAll("button");
 const inputValue = document.querySelector("#input-area");
 
 function add(a,b){
-    if(Number.isInteger(a) && Number.isInteger(b)){
-        if(a+b > 999999999 || a+b < -999999999 ){
-            return (a+b).toPrecision(5);
-        }else{
-            return (a+b);
-        }
-    }
-    return (a+b).toFixed(3);
+    let value = a+b;
+    if(value > 999999999 || value < -999999999) return value.toPrecision(5);
+    if(Number.isInteger(value)) return value;
+    return value.toFixed(7);     
 }
 
 function sub(a,b){
-    if(a-b > 999999999 || a-b < -999999999 ){
-        return (a-b).toPrecision(5);
-    }
-    return (a-b);
+   let value = a-b;
+    if(value > 999999999 || value < -999999999) return value.toPrecision(5);
+    if(Number.isInteger(value)) return value;
+    return value.toFixed(7);     
 }
 
 function mul(a,b){
-    if(a*b > 999999999 || a*b < -999999999 ){
-        return (a*b).toPrecision(5);
-    }
-    return (a*b);
+   let value = a*b;
+    if(value > 999999999 || value < -999999999) return value.toPrecision(5);
+    if(Number.isInteger(value)) return value;
+    return value.toFixed(7);     
 }
 
 function div(a,b){
     if(b == 0){
         return "ERROR";
     }
-    if(a/b > 999999999 || a/b < -999999999 ){
-        return (a/b).toPrecision(5);
-    }
-    return (a/b);
+    let value = a/b;
+    if(value > 999999999 || value < -999999999) return value.toPrecision(5);
+    if(Number.isInteger(value)) return value;
+    return value.toFixed(7);     
 }
 
 function operate(num1, operator, num2 ){
